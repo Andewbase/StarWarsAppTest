@@ -1,6 +1,6 @@
-package com.example.teststrarwars.screen.data.retrofit
+package com.example.teststrarwars.data.retrofit
 
-import com.example.teststrarwars.screen.data.retrofit.api.RetrofitInstance
+import com.example.teststrarwars.data.retrofit.api.RetrofitInstance
 import com.example.teststrarwars.models.Peoples
 import retrofit2.Response
 

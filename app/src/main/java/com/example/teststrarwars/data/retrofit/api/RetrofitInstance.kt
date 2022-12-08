@@ -1,4 +1,4 @@
-package com.example.teststrarwars.screen.data.retrofit.api
+package com.example.teststrarwars.data.retrofit.api
 
 import com.example.teststrarwars.BASE_URL
 import okhttp3.OkHttpClient

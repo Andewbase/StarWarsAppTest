@@ -7,9 +7,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.teststrarwars.REALISATION
-import com.example.teststrarwars.screen.data.retrofit.RetrofitRepository
-import com.example.teststrarwars.screen.data.room.PeopleRoomDatabase
-import com.example.teststrarwars.screen.data.room.repository.PeopleRepositoryRealization
+import com.example.teststrarwars.data.retrofit.RetrofitRepository
+import com.example.teststrarwars.data.room.PeopleRoomDatabase
+import com.example.teststrarwars.data.room.repository.PeopleRepositoryRealization
 import com.example.teststrarwars.models.Peoples
 import kotlinx.coroutines.launch
 import retrofit2.Response

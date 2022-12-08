@@ -1,4 +1,4 @@
-package com.example.teststrarwars.screen.data.room.dao
+package com.example.teststrarwars.data.room.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

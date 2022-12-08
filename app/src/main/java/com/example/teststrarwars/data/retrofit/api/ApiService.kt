@@ -1,4 +1,4 @@
-package com.example.teststrarwars.screen.data.retrofit.api
+package com.example.teststrarwars.data.retrofit.api
 
 import com.example.teststrarwars.models.Peoples
 import com.example.teststrarwars.models.PeopleItem

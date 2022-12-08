@@ -1,4 +1,4 @@
-package com.example.teststrarwars.screen.data.room.repository
+package com.example.teststrarwars.data.room.repository
 
 import androidx.lifecycle.LiveData
 import com.example.teststrarwars.models.PeopleItem
