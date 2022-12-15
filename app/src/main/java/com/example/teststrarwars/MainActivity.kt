@@ -5,7 +5,10 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.teststrarwars.databinding.ActivityMainBinding
+import com.example.teststrarwars.util.MAIN
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private var mBinding: ActivityMainBinding?= null

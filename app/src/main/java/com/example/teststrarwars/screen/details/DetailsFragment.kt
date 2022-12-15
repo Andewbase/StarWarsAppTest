@@ -6,14 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import com.example.teststrarwars.MAIN
+import com.example.teststrarwars.util.MAIN
 import com.example.teststrarwars.R
-import com.example.teststrarwars.SaveShared
+import com.example.teststrarwars.util.SaveShared
 import com.example.teststrarwars.databinding.FragmentDetailsBinding
 import com.example.teststrarwars.models.PeopleItem
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
 
     private var mBinding: FragmentDetailsBinding? = null
@@ -57,14 +58,21 @@ class DetailFragment : Fragment() {
 
         binding.imgDetailFavorite.setOnClickListener {
             if (isFavorite == valueBool){
+
                 binding.imgDetailFavorite.setImageResource(R.drawable.ic_baseline_favorite_24)
+
                 SaveShared.setFavorite(MAIN, peopleItem.id.toString(), true)
+
                 viewModel.insert(peopleItem){}
+
                 isFavorite = true
             }else{
                 binding.imgDetailFavorite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+
                 viewModel.delete(peopleItem){}
+
                 SaveShared.setFavorite(MAIN, peopleItem.id.toString(), false)
+
                 isFavorite = false
             }
         }

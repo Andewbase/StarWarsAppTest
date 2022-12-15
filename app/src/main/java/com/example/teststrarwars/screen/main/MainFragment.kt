@@ -7,12 +7,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.teststrarwars.MAIN
+import com.example.teststrarwars.util.MAIN
 import com.example.teststrarwars.R
 import com.example.teststrarwars.databinding.FragmentMainBinding
 import com.example.teststrarwars.models.PeopleItem
 import com.example.teststrarwars.screen.PeopleItemListener
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainFragment : Fragment(), PeopleItemListener {
 
     private var mBinding: FragmentMainBinding?= null
@@ -40,15 +42,13 @@ class MainFragment : Fragment(), PeopleItemListener {
 
     private fun init() {
 
-        viewModel.initDatabase()
-
         recyclerView = binding.rvMain
         recyclerView.adapter = adapter
 
         try {
             viewModel.getPeopleRetrofit()
             viewModel.myPeople.observe(viewLifecycleOwner) { list ->
-                adapter.submitList(list.body()!!.results)
+                adapter.submitList(list.results)
             }
         }catch (e: Exception){
             Toast.makeText(MAIN, e.message, Toast.LENGTH_SHORT).show()
@@ -62,7 +62,7 @@ class MainFragment : Fragment(), PeopleItemListener {
     }
 
     override fun peopleIsFavorite(peopleItem: PeopleItem) {
-        TODO("Not yet implemented")
+      //TODO
     }
 
     override fun onDestroyView() {

@@ -6,16 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.teststrarwars.MAIN
-import com.example.teststrarwars.R
 import com.example.teststrarwars.databinding.FragmentFavoriteBinding
 import com.example.teststrarwars.models.PeopleItem
 import com.example.teststrarwars.screen.PeopleItemListener
-import com.example.teststrarwars.screen.main.MainFragmentViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavoriteFragment : Fragment(), PeopleItemListener {
     private var mBinding: FragmentFavoriteBinding?= null
     private val binding get() = mBinding!!

@@ -45,6 +45,11 @@ class MainAdapter(
             root.tag = people
 
             itemName.text = people.name
+
+            imgMyFavorite.setImageResource(
+                if (people.isFavorite) R.drawable.ic_baseline_favorite_24
+                else R.drawable.ic_baseline_favorite_border_24
+            )
         }
 
     }

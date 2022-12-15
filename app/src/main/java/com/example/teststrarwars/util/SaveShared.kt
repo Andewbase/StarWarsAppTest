@@ -1,4 +1,4 @@
-package com.example.teststrarwars
+package com.example.teststrarwars.util
 
 import android.content.Context
 import android.preference.PreferenceManager
