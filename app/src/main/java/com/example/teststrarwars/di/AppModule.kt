@@ -2,10 +2,12 @@ package com.example.teststrarwars.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.teststrarwars.util.BASE_URL
-import com.example.teststrarwars.data.retrofit.api.ApiService
-import com.example.teststrarwars.data.room.PeopleRoomDatabase
-import com.example.teststrarwars.data.room.dao.PeopleDao
+import com.example.teststrarwars.api.ApiService
+import com.example.teststrarwars.api.ApiService.Companion.BASE_URL
+import com.example.teststrarwars.data.local.PeopleRoomDatabase
+import com.example.teststrarwars.data.local.FavoritePeopleDao
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,31 +16,12 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
-    @Provides
-    fun baseUrl() = BASE_URL
-
-    @Provides
-    fun loggin() = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-
-    @Provides
-    fun okHttpClient() = OkHttpClient.Builder().addInterceptor(loggin()).build()
-
-    @Provides
-    @Singleton
-    fun provideRetrofit(baseUrl: String): ApiService =
-        Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient())
-            .build()
-            .create(ApiService::class.java)
 
     @Provides
     @Singleton
@@ -50,7 +33,33 @@ object AppModule {
             .build()
 
     @Provides
-    fun provideCharterDao(appDataBase: PeopleRoomDatabase): PeopleDao {
-        return appDataBase.getPeopleDao()
+    @Singleton
+    fun provideCharterDao(appDataBase: PeopleRoomDatabase): FavoritePeopleDao {
+        return appDataBase.getFavoritePeopleDao()
     }
+
+    @Provides
+    fun moshi() = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+
+    @Provides
+    fun loggin() = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+
+    @Provides
+    fun okHttpClient() = OkHttpClient.Builder().addInterceptor(loggin()).build()
+
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create(moshi()))
+            .client(okHttpClient())
+            .build()
+
+    @Provides
+    @Singleton
+    fun providePeopleApi(retrofit: Retrofit): ApiService =
+        retrofit.create(ApiService::class.java)
+
 }

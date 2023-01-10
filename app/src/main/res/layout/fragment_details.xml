@@ -8,15 +8,19 @@
     tools:context="com.example.teststrarwars.screen.details.DetailFragment">
 
 
-    <ImageView
+    <ToggleButton
         android:id="@+id/img_detail_favorite"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="220dp"
         android:layout_marginEnd="60dp"
+        android:focusable="false"
+        android:textOff=""
+        android:textOn=""
+        android:focusableInTouchMode="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
+        android:background="@drawable/ic_baseline_favorite_border_24" />
 
     <TextView
         android:id="@+id/tv_name"
@@ -68,4 +72,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_gender"
         tools:text="homeWorld" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

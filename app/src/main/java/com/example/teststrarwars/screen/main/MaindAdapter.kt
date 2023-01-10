@@ -3,36 +3,43 @@ package com.example.teststrarwars.screen.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.teststrarwars.R
 import com.example.teststrarwars.databinding.ItemLayuotBinding
-import com.example.teststrarwars.models.PeopleItem
-import com.example.teststrarwars.screen.PeopleItemListener
-import kotlinx.android.synthetic.main.item_layuot.view.*
+import com.example.teststrarwars.data.models.People
 
 class MainAdapter(
-  private val listener: PeopleItemListener
-): ListAdapter<PeopleItem, MainAdapter.MyViewHolder>(DiffUtilCallback), View.OnClickListener {
+  private val listener: OnItemClickListener
+): PagingDataAdapter<People, MainAdapter.MyViewHolder>(DiffUtilCallback) {
 
-    override fun onClick(v: View) {
 
-    val people = v.tag as PeopleItem
-    when(v.id){
-        R.id.img_my_favorite -> listener.peopleIsFavorite(people)
-        else -> listener.peopleGo(people)
+
+   inner class MyViewHolder(val binding: ItemLayuotBinding): RecyclerView.ViewHolder(binding.root){
+    init {
+        binding.root.setOnClickListener {
+            val position = bindingAdapterPosition
+            if (position !=  RecyclerView.NO_POSITION){
+                val item = getItem(position)
+                if (item != null){
+                    listener.onItemClick(item)
+                }
+            }
         }
     }
 
-    class MyViewHolder(val binding: ItemLayuotBinding): RecyclerView.ViewHolder(binding.root)
+        fun bind(people: People){
+            with(binding){
+                itemName.text = people.name
+            }
+        }
+   }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemLayuotBinding.inflate(inflater, parent, false)
-
-        binding.root.setOnClickListener(this)
 
         return MyViewHolder(binding)
     }
@@ -41,30 +48,25 @@ class MainAdapter(
 
         val people = getItem(position)
 
-        with(holder.binding){
-            root.tag = people
-
-            itemName.text = people.name
-
-            imgMyFavorite.setImageResource(
-                if (people.isFavorite) R.drawable.ic_baseline_favorite_24
-                else R.drawable.ic_baseline_favorite_border_24
-            )
+        if (people != null){
+            holder.bind(people)
         }
 
     }
 
+    interface OnItemClickListener{
+        fun onItemClick(people: People)
+    }
 
-    companion object DiffUtilCallback: DiffUtil.ItemCallback<PeopleItem>(){
-        override fun areItemsTheSame(oldItem: PeopleItem, newItem: PeopleItem): Boolean {
+    companion object DiffUtilCallback: DiffUtil.ItemCallback<People>(){
+        override fun areItemsTheSame(oldItem: People, newItem: People): Boolean {
             return oldItem.name == newItem.name
         }
 
-        override fun areContentsTheSame(oldItem: PeopleItem, newItem: PeopleItem): Boolean {
+        override fun areContentsTheSame(oldItem: People, newItem: People): Boolean {
             return oldItem == newItem
         }
 
     }
-
 
 }

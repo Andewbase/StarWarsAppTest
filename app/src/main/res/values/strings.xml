@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">TestStrarWars</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_text">Поиск</string>
+    <string name="people">Персонажи</string>
+    <string name="favorite_people">избранные персонажи</string>
+    <string name="no_result_load">Результат не удалось загрузить</string>
+    <string name="retry">Повторить попытку</string>
+    <string name="error_date">Не удалось загрузить данные</string>
+    <string name="error_character">Персонаж не найден</string>
+    <string name="try_again">Пробовать Снова</string>
 </resources>

@@ -8,42 +8,47 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.teststrarwars.R
+import com.example.teststrarwars.data.local.FavoritePeople
 import com.example.teststrarwars.databinding.FragmentFavoriteBinding
-import com.example.teststrarwars.models.PeopleItem
-import com.example.teststrarwars.screen.PeopleItemListener
+import com.example.teststrarwars.data.models.People
+import com.example.teststrarwars.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavoriteFragment : Fragment(), PeopleItemListener {
+class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
+
     private var mBinding: FragmentFavoriteBinding?= null
     private val binding get() = mBinding!!
 
-    lateinit var recyclerView: RecyclerView
-
     private val viewModel by viewModels<FavoriteFragmentViewModel>()
 
-    private val adapter by lazy { FavoriteAdapter(this) }
+    private val adapter by lazy { FavoriteAdapter() }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        mBinding = FragmentFavoriteBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
-    }
 
-    private fun init() {
+        mBinding = FragmentFavoriteBinding.bind(view)
 
-        recyclerView = binding.rvFavorite
-        recyclerView.adapter = adapter
-
-        viewModel.getAllPeople().observe(viewLifecycleOwner) { list ->
-            adapter.submitList(list.asReversed())
+        viewModel.people.observe(viewLifecycleOwner) {
+            adapter.submitList(it.asReversed())
+            binding.apply {
+                rvFavorite.setHasFixedSize(true)
+                rvFavorite.adapter = adapter
+            }
         }
+
+        adapter.setOnItemClickCallback(object : FavoriteAdapter.OnItemClickCallback{
+            override fun onItemClick(favoritePeople: FavoritePeople) {
+
+                val people = favoritePeople.toPeople()
+
+                val action = FavoriteFragmentDirections.actionFavoriteFragmentToDetailFragment(people)
+                findNavController().navigate(action)
+            }
+
+        })
     }
 
     override fun onDestroyView() {
@@ -51,12 +56,4 @@ class FavoriteFragment : Fragment(), PeopleItemListener {
         mBinding = null
     }
 
-    override fun peopleGo(peopleItem: PeopleItem) {
-        val directions = FavoriteFragmentDirections.actionFavoriteFragmentToDetailFragment(peopleItem)
-        findNavController().navigate(directions)
-    }
-
-    override fun peopleIsFavorite(peopleItem: PeopleItem) {
-        TODO("Not yet implemented")
-    }
 }
